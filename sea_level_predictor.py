@@ -59,4 +59,4 @@ def draw_plot():
     plt.savefig('sea_level_plot.png')
     return plt.gca()
 
-    
+draw_plot()
