@@ -4,7 +4,7 @@ from scipy.stats import linregress
 
 def draw_plot():
     # Read data from file
-    data = pd.read_csv('/content/epa-sea-level.csv')
+    data = pd.read_csv('epa-sea-level.csv')
 
     # Create scatter plot
     itemsSubplot = {
@@ -41,22 +41,29 @@ def draw_plot():
         new_y_pred.append(a)
 
 
+    # We will start plotting
+    # figure and axes
+    # figure(variabel fig) --> Canvas
+    # axes(variabel ax) ---> area tempat untuk gambar grafik di figure
 
-    # Add labels and title
-    plt.plot(new, new_y_pred)
-    
-    # Scatter points
-    plt.scatter(itemsSubplot['year'], itemsSubplot['CSIRO'])
-    plt.xlabel("Year")
-    plt.ylabel("Sea Level (inches)")
-    plt.title("Rise in Sea Level")
+    fig, ax = plt.subplots()
 
-    plt.show()
+    # We will start making the plot:
+
+    # 1. Scatter points
+    ax.scatter(itemsSubplot['year'], itemsSubplot['CSIRO'])
+
+    # 2. Add labels and title
+    ax.plot(new, new_y_pred)
+
+    # 3. Add title and the labels 
+    ax.set_xlabel("Year")
+    ax.set_ylabel("Sea Level (inches)")
+    ax.set_title("Rise in Sea Level")
+
 
 
     
     # Save plot and return data for testing (DO NOT MODIFY)
     plt.savefig('sea_level_plot.png')
-    return plt.gca()
-
-draw_plot()
+    return ax
