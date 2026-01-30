@@ -15,13 +15,18 @@ def draw_plot():
         itemsSubplot['year'].append(a)
     for a in data['CSIRO Adjusted Sea Level']:
         itemsSubplot['CSIRO'].append(a)
-    
+
 
 
     # Create first line of best fit
+    firstline = [x for x in itemsSubplot['year']]
     result = linregress(itemsSubplot['year'], itemsSubplot['CSIRO'])
     y_pred = [result.slope * xi + result.intercept for xi in itemsSubplot['year']]
-    
+    for xi in range(2013, 2050):
+        firstline.append(xi)
+        a = result.slope * xi + result.intercept
+        y_pred.append(a)
+
 
 
 
@@ -33,7 +38,7 @@ def draw_plot():
         if a[0]>= 2000:
             new.append(a[0])
             new_y_pred.append(a[1])
-    
+
     # Add more year untul 2050
     for xi in range(2013, 2050):
         new.append(xi)
@@ -50,20 +55,23 @@ def draw_plot():
 
     # We will start making the plot:
 
-    # 1. Scatter points
+    # 1. Data points
     ax.scatter(itemsSubplot['year'], itemsSubplot['CSIRO'])
 
     # 2. Add labels and title
+    ax.plot(firstline, y_pred)
     ax.plot(new, new_y_pred)
 
-    # 3. Add title and the labels 
+    
+    
+    # 3. Add title and the labels
     ax.set_xlabel("Year")
     ax.set_ylabel("Sea Level (inches)")
     ax.set_title("Rise in Sea Level")
 
 
 
-    
+
     # Save plot and return data for testing (DO NOT MODIFY)
     plt.savefig('sea_level_plot.png')
     return ax
