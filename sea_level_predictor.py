@@ -27,21 +27,24 @@ def draw_plot():
         a = result.slope * xi + result.intercept
         y_pred.append(a)
 
+
     # Create second line of best fit
     # Filter the year list
-    new = []
-    new_y_pred = []
-    for a in zip(itemsSubplot['year'], y_pred):
+    year_filter = []
+    y_filter = []
+    for a in zip(itemsSubplot['year'], itemsSubplot['CSIRO']):
         if a[0]>= 2000:
-            new.append(a[0])
-            new_y_pred.append(a[1])
+            year_filter.append(a[0])
+            y_filter.append(a[1])
+    result2 = linregress(year_filter, y_filter)
+    new_y_pred = [result2.slope * xx + result2.intercept for xx in year_filter]
 
     # Add more year untul 2050
     for xi in range(2014, 2051):
-        new.append(xi)
-        a = result.slope * xi + result.intercept
+        year_filter.append(xi)
+        a = result2.slope * xi + result2.intercept
         new_y_pred.append(a)
-
+    
 
     # We will start plotting
     # figure and axes
@@ -51,14 +54,14 @@ def draw_plot():
     fig, ax = plt.subplots()
 
     # We will start making the plot:
+
     # 1. Scatter points
     ax.scatter(itemsSubplot['year'], itemsSubplot['CSIRO'])
 
     # 2. Add labels and title
     ax.plot(firstline, y_pred)
-    ax.plot(new, new_y_pred)
+    ax.plot(year_filter, new_y_pred)
 
-    # 2. Scatter points
     
 
     # 3. Add title and the labels
